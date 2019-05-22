@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
+import Header from './Header'
 import {BrowserRouter, Route} from 'react-router-dom'
 
-const Header = () => <h2>Header</h2>;
 const Dashboard= () => <h2>Dashboard</h2>;
 const SurveryNew = () => <h2>SurveyNew</h2>;
 const Landing = () => <h2>Landing</h2>;
