@@ -11,7 +11,7 @@ export default class Header extends Component {
                     </a>
                     <ul className={"right"}>
                         <li>
-                            <a href={"/api/asdsasd"}>Login with google</a>
+                            <a href={"/auth/google"}>Login with google</a>
                         </li>
                     </ul>
                 </div>
