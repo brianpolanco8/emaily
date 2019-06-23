@@ -6,6 +6,7 @@ const keys = require('./config/keys');
 const bodyParser = require('body-parser')
 require('./models/User');
 require('./services/passport');
+const app = express();
 
 if (process.env.NODE_ENV === 'production'){
   //1. EXPRESS WILL SERVE UP PRODUCTION ASSETS
@@ -23,7 +24,7 @@ if (process.env.NODE_ENV === 'production'){
 
 mongoose.connect(keys.mongoURI, { useNewUrlParser: true });
 
-const app = express();
+
 
 app.use(bodyParser.json())
 app.use(
