@@ -30,7 +30,11 @@ class Header extends Component {
                         Emaily
                     </Link>
                     <ul className={"right"}>
-                        {this.renderContent()}
+                        {/* {this.renderContent()} */}
+                        <li> <a href={`auth/google`} >Login with google</a> </li>
+                        <li key={1}><Payments /></li>,
+                        <li key={3} style={{ margin: '0 10px' }}>Credits</li>,
+                        <li key={2}><a href={`api/logout`}>Logout</a></li>,
                     </ul>
                 </div>
             </nav>
