@@ -9,7 +9,7 @@
     "es6-server": "nodemon node_modules/.bin/babel-node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "client": "npm run start --prefix client",
-    "dev": "concurrently \"npm run es6-server\" \"npm run client \"",
+    "dev": "concurrently \"npm run server\" \"npm run client \"",
     "heroku-postbuid": "NPM_CONFIG _PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "author": "",
