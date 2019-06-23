@@ -11,15 +11,14 @@ const app = express();
 if (process.env.NODE_ENV === 'production'){
   //1. EXPRESS WILL SERVE UP PRODUCTION ASSETS
   // LIKE OUR MAIN.JS FILE, OR MAIN.CSS FILE
-  app.use(express.static('client/build'))
+  const path = require('path');
+  app.use(express.static(path.join(__dirname, 'client/build')))
   //2. EXPRESS WILL SERVE UP THE INDEX.HTML FILE
   // IF IT DOESN'T RECOGNIZE THE ROUTE
 
-  const path = require('path');
-  app.get('*', ( req, res) => {
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
-  })
-
+  app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname+'/client/build/index.html'));
+});
 }
 
 mongoose.connect(keys.mongoURI, { useNewUrlParser: true });
