@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
 const keys = require('./config/keys');
-const proxy = require('http-proxy-middleware');
 const bodyParser = require('body-parser')
 require('./models/User');
 require('./services/passport');
@@ -23,10 +22,7 @@ if (process.env.NODE_ENV === 'production') {
     });
 }
 
-app.use(
-    '/api',
-    proxy({ target: 'localhost:5000', changeOrigin: true })
-);
+
 
 mongoose.connect(keys.mongoURI, { useNewUrlParser: true });
 
