@@ -8,24 +8,28 @@ require('./models/User');
 require('./services/passport');
 const app = express();
 
-if (process.env.NODE_ENV === 'production'){
-  //1. EXPRESS WILL SERVE UP PRODUCTION ASSETS
-  // LIKE OUR MAIN.JS FILE, OR MAIN.CSS FILE
-  const path = require('path');
-  app.use(express.static(path.join(__dirname, 'client/build')))
-  //2. EXPRESS WILL SERVE UP THE INDEX.HTML FILE
-  // IF IT DOESN'T RECOGNIZE THE ROUTE
+if (process.env.NODE_ENV === 'production') {
+    //1. EXPRESS WILL SERVE UP PRODUCTION ASSETS
+    // LIKE OUR MAIN.JS FILE, OR MAIN.CSS FILE
+    const path = require('path');
+    app.use(express.static(path.join(__dirname, 'client/build')))
+    //2. EXPRESS WILL SERVE UP THE INDEX.HTML FILE
+    // IF IT DOESN'T RECOGNIZE THE ROUTE
 
-  app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname+'/client/build/index.html'));
-});
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname + '/client/build/index.html'));
+    });
 }
+
+app.use(
+    '/api',
+    proxy({ target: 'localhost:5000', changeOrigin: true })
+);
 
 mongoose.connect(keys.mongoURI, { useNewUrlParser: true });
 
-
-
 app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(
     cookieSession({
         maxAge: 30 * 24 * 60 * 60 * 1000,
