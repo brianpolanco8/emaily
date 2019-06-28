@@ -3,10 +3,12 @@ const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
 const keys = require('./config/keys');
+const proxy = require('http-proxy-middleware');
 const bodyParser = require('body-parser')
 require('./models/User');
 require('./services/passport');
 const app = express();
+
 
 if (process.env.NODE_ENV === 'production') {
     //1. EXPRESS WILL SERVE UP PRODUCTION ASSETS

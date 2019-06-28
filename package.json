@@ -25,5 +25,8 @@
     "passport": "^0.4.0",
     "passport-google-oauth20": "^2.0.0",
     "stripe": "^7.1.0"
+  },
+  "devDependencies": {
+    "http-proxy-middleware": "^0.19.1"
   }
 }
