@@ -37,6 +37,18 @@ class SurveyForm extends Component {
     }
 }
 
+const validate = values => {
+    const errors = {};
+    FIELDS.forEach(({ name }) => {
+        if (!values[name]) {
+            errors[name] = 'Required'
+        };
+    });
+    return errors;
+}
+
 export default reduxForm({
+    //ES6 shortens validate:validate key-value to only validate
+    validate,
     form: 'surveyForm'
 })(SurveyForm)
