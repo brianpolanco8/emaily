@@ -19,7 +19,7 @@ if (process.env.NODE_ENV === 'production') {
 
 
 
-mongoose.connect(keys.mongoURI, { useNewUrlParser: true });
+mongoose.connect("mongodb://localhost:27017/emaily", { useNewUrlParser: true });
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }));
