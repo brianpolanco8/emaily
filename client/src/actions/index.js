@@ -2,17 +2,25 @@ import axios from 'axios';
 import { FETCH_USER } from "./types";
 
 export const fetchUsers = () => async dispatch => {
-    const res = await axios.get('/api/current_user');
+    const response = await axios.get('/api/current_user');
 
-    dispatch({ type: FETCH_USER, payload: res.data })
+    dispatch({ type: FETCH_USER, payload: response.data })
 };
 
 export const handleToken = (token) => async dispatch => {
-    const res = await axios.post('/api/stripe', token);
+    const response = await axios.post('/api/stripe', token);
 
-    dispatch({ type: FETCH_USER, payload: res.data })
+    dispatch({ type: FETCH_USER, payload: response.data })
 };
 
-export const submitSurvey = (values) => async dispatch => {
-    console.log('submit')
+export const submitSurvey = (values, history) => async dispatch => {
+    try {
+        const response = await axios.post('/api/surveys', values)
+        history.push('/surveys')
+        dispatch({ type: FETCH_USER, payload: response.data })
+
+    } catch (e) {
+        console.log(e)
+
+    }
 }
