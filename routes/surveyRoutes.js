@@ -41,21 +41,23 @@ module.exports = (app) => {
     })
 
     app.post('/api/surveys/webhook', (req, res) => {
-        const events = req.body.map(({ email, url }) => {
-            const pathname = new URL(url).pathname
-            const p = new Path('/api/surveys/:surveyId/:choice')
-            const match = p.test(pathname)
 
-            if (match) {
-                return { email, surveyId: match.surveyId, choice: match.choice }
-            }
+        const p = new Path('/api/surveys/:surveyId/:choice')
 
-            const compactEvents = _.compact(events); //REMOVES UNDEFINED ENTRIES IN THE ARRAY 
-            const uniqueEvents = _.uniqBy(compactEvents, 'email', 'surveyId'); // UNIQUE EVENTS BY EMAILS AND SURVEYID
+        const events = _.chain(req.body)
+            .map(({ email, url }) => {
+                const match = p.test(new URL(url).pathname)
+                if (match) {
+                    return { email, surveyId: match.surveyId, choice: match.choice }
+                }
+            })
+            .compact() //REMOVES UNDEFINED ENTRIES IN THE ARRAY 
+            .uniqBy('email', 'surveyId') // UNIQUE EVENTS BY EMAILS AND SURVEYID
+            .value() //GET THE RESULT OF THE CHAIN METHOD
 
-            console.log(uniqueEvents)
-            res.send({})
-        });
+
+        res.send({})
+
 
         console.log(events)
 
