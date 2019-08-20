@@ -49,6 +49,12 @@ module.exports = (app) => {
             if (match) {
                 return { email, surveyId: match.surveyId, choice: match.choice }
             }
+
+            const compactEvents = _.compact(events); //REMOVES UNDEFINED ENTRIES IN THE ARRAY 
+            const uniqueEvents = _.uniqBy(compactEvents, 'email', 'surveyId'); // UNIQUE EVENTS BY EMAILS AND SURVEYID
+
+            console.log(uniqueEvents)
+            res.send({})
         });
 
         console.log(events)
