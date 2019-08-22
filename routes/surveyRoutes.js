@@ -15,6 +15,19 @@ module.exports = (app) => {
         res.send('Thanks for voting')
     })
 
+    app.get('/api/surveys/:surveyid/', (req, res) => {
+        const { surveyId, email, response } = req.body
+        Survey.updateOne({
+            id: surveyId,
+            recipients: {
+                $elemMatch: { email, responded: false }
+            }
+        }, {
+                $inc: { [choice]: 1 },
+                $set: { 'recipients.$.responded': true }
+            })
+    })
+
     app.post('/api/surveys', requireLogin, requireCredits, async (req, res) => {
         const { title, subject, body, recipients } = req.body
 
