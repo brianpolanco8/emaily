@@ -11,21 +11,8 @@ const Survey = mongoose.model('surveys');
 
 module.exports = (app) => {
 
-    app.get('/api/surveys/thanks', (req, res) => {
+    app.get('/api/surveys/:surveyId/:choice', (req, res) => {
         res.send('Thanks for voting')
-    })
-
-    app.get('/api/surveys/:surveyid/', (req, res) => {
-        const { surveyId, email, response } = req.body
-        Survey.updateOne({
-            id: surveyId,
-            recipients: {
-                $elemMatch: { email, responded: false }
-            }
-        }, {
-                $inc: { [choice]: 1 },
-                $set: { 'recipients.$.responded': true }
-            })
     })
 
     app.post('/api/surveys', requireLogin, requireCredits, async (req, res) => {
@@ -54,10 +41,9 @@ module.exports = (app) => {
     })
 
     app.post('/api/surveys/webhook', (req, res) => {
-
         const p = new Path('/api/surveys/:surveyId/:choice')
 
-        const events = _.chain(req.body)
+        _.chain(req.body)
             .map(({ email, url }) => {
                 const match = p.test(new URL(url).pathname)
                 if (match) {
@@ -66,13 +52,20 @@ module.exports = (app) => {
             })
             .compact() //REMOVES UNDEFINED ENTRIES IN THE ARRAY 
             .uniqBy('email', 'surveyId') // UNIQUE EVENTS BY EMAILS AND SURVEYID
+            .each(({ surveyId, email, choice }) => { //ITERATES OVER THE CHAIN ARRAY
+                Survey.updateOne({
+                    _id: surveyId,
+                    recipients: {
+                        $elemMatch: { email, responded: false }
+                    }
+                }, {
+                        $inc: { [choice]: 1 },
+                        $set: { 'recipients.$.responded': true },
+                        lastResponded: new Date()
+                    }).exec()
+            })
             .value() //GET THE RESULT OF THE CHAIN METHOD
 
-
         res.send({})
-
-
-        console.log(events)
-
     })
 }   
