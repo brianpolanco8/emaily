@@ -25,6 +25,7 @@ export const submitSurvey = (values, history) => async dispatch => {
 
 export const fetchSurveys = token => async dispatch => {
   try {
+    console.log("me voy a ejecutar");
     const response = await axios.get("/api/surveys");
     dispatch({ type: FETCH_SURVEYS, payload: response.data });
   } catch (e) {
